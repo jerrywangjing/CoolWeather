@@ -1,0 +1,13 @@
+<litepal>
+    <dbname value="cool_weather"/>
+    <version value="1"/>
+
+    <list>
+
+        <!-- 将android 实体类映射到数据库表 -->
+        <mapping class="com.jerry.coolweather.db.Province"/>
+        <mapping class="com.jerry.coolweather.db.City"/>
+        <mapping class="com.jerry.coolweather.db.County"/>
+    </list>
+
+</litepal>
