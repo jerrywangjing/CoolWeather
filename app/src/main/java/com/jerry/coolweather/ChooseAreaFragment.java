@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +23,8 @@ import com.jerry.coolweather.util.Utility;
 import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.sql.ConnectionPoolDataSource;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -92,7 +88,7 @@ public class ChooseAreaFragment extends Fragment {
                     queryCitys();
                 }else if (currentLevel == LEVEL_CITY){
                     selectedCity = cityList.get(position);
-                    queryProvinces();
+                    queryCounties();
                 }
             }
         });
@@ -140,7 +136,7 @@ public class ChooseAreaFragment extends Fragment {
 
         titleText.setText(selectedProvince.getProvinceName());
         backButton.setVisibility(View.VISIBLE);
-        cityList = DataSupport.where("province = ? ",String.valueOf(selectedProvince.getId())).find(City.class);
+        cityList = DataSupport.where("provinceid = ? ",String.valueOf(selectedProvince.getId())).find(City.class);
         if (cityList.size() > 0){
             dataList.clear();
             for (City city :
