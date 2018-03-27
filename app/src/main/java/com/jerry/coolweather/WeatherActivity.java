@@ -1,6 +1,7 @@
 package com.jerry.coolweather;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.jerry.coolweather.gson.Forecast;
 import com.jerry.coolweather.gson.Weather;
+import com.jerry.coolweather.service.AutoUpdateService;
 import com.jerry.coolweather.util.HttpUtil;
 import com.jerry.coolweather.util.Utility;
 
@@ -30,7 +32,7 @@ import okhttp3.Response;
 public class WeatherActivity extends AppCompatActivity {
 
 
-    public static final String WeatherApiKey = "5dbfbc24cbe64474af8db40fc2ab2f54";
+    public static final String WEATHER_API_KEY = "5dbfbc24cbe64474af8db40fc2ab2f54";
 
     private ScrollView weatherLayout;
     private TextView titleCity;
@@ -119,7 +121,7 @@ public class WeatherActivity extends AppCompatActivity {
         showProgress();
 
         String weatherUrl = "http://guolin.tech/api/weather?cityid="+weatherId+
-                "&key="+WeatherApiKey;
+                "&key="+WEATHER_API_KEY;
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -151,6 +153,12 @@ public class WeatherActivity extends AppCompatActivity {
                             editor.putString(weatherId,responseText);
                             editor.apply();
                             showWeatherInfo(weather);
+
+                            // 开启自动更新服务
+
+                            Intent intent = new Intent(WeatherActivity.this, AutoUpdateService.class);
+                            startService(intent);
+
                         }else{
                             Toast.makeText(WeatherActivity.this,"获取天气信息失败",Toast.LENGTH_SHORT).show();
                         }
@@ -192,7 +200,7 @@ public class WeatherActivity extends AppCompatActivity {
         }
 
         if (weather.aqi != null){
-            aqiText.setText(weather.aqi.city.api);
+            aqiText.setText(weather.aqi.city.aqi);
             pm25Text.setText(weather.aqi.city.pm25);
         }
 
