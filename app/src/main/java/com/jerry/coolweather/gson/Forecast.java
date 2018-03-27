@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Jerry on 2018/3/22.
  */
 
-public class Forecaste {
+public class Forecast {
 
     public String date;
 
